@@ -52,7 +52,8 @@ bool IsUncompressedRGBFormat(int format) {
     case HAL_PIXEL_FORMAT_BGRA_8888:
     case HAL_PIXEL_FORMAT_RGBA_5551:
     case HAL_PIXEL_FORMAT_RGBA_4444:
-    case HAL_PIXEL_FORMAT_R_8:
+    case HAL_PIXEL_FORMAT_R_8_QTI:
+    case HAL_PIXEL_FORMAT_R_8_ANDROID:
     case HAL_PIXEL_FORMAT_RG_88:
     case HAL_PIXEL_FORMAT_BGRX_8888:
     case HAL_PIXEL_FORMAT_RGBA_1010102:
@@ -64,6 +65,7 @@ bool IsUncompressedRGBFormat(int format) {
     case HAL_PIXEL_FORMAT_BGRX_1010102:
     case HAL_PIXEL_FORMAT_XBGR_2101010:
     case HAL_PIXEL_FORMAT_RGBA_FP16:
+    case HAL_PIXEL_FORMAT_RGBA_10101010_ANDROID:
     case HAL_PIXEL_FORMAT_BGR_888:
       return true;
     default:
@@ -117,6 +119,9 @@ uint32_t GetBppForUncompressedRGB(int format) {
     case HAL_PIXEL_FORMAT_RGBA_FP16:
       bpp = 8;
       break;
+    case HAL_PIXEL_FORMAT_RGBA_10101010_ANDROID:
+      bpp = 5;
+      break;
     case HAL_PIXEL_FORMAT_RGBA_8888:
     case HAL_PIXEL_FORMAT_RGBX_8888:
     case HAL_PIXEL_FORMAT_BGRA_8888:
@@ -140,6 +145,13 @@ uint32_t GetBppForUncompressedRGB(int format) {
     case HAL_PIXEL_FORMAT_RGBA_5551:
     case HAL_PIXEL_FORMAT_RGBA_4444:
       bpp = 2;
+      break;
+    case HAL_PIXEL_FORMAT_RG_88:
+      bpp = 2;
+      break;
+    case HAL_PIXEL_FORMAT_R_8_QTI:
+    case HAL_PIXEL_FORMAT_R_8_ANDROID:
+      bpp = 1;
       break;
     default:
       ALOGE("Error : %s New format request = 0x%x", __FUNCTION__, format);
@@ -817,6 +829,16 @@ int GetBufferLayout(private_handle_t *hnd, uint32_t stride[4],
     case HAL_PIXEL_FORMAT_BGRX_1010102:
     case HAL_PIXEL_FORMAT_XBGR_2101010:
       stride[0] = static_cast<uint32_t>(hnd->width * 4);
+      break;
+    case HAL_PIXEL_FORMAT_RGBA_10101010_ANDROID:
+      stride[0] = static_cast<uint32_t>(hnd->width * 5);
+      break;
+    case HAL_PIXEL_FORMAT_RG_88:
+      stride[0] = static_cast<uint32_t>(hnd->width * 2);
+      break;
+    case HAL_PIXEL_FORMAT_R_8_QTI:
+    case HAL_PIXEL_FORMAT_R_8_ANDROID:
+      stride[0] = static_cast<uint32_t>(hnd->width);
       break;
   }
 

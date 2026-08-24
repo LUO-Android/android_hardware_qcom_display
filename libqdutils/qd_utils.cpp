@@ -320,8 +320,10 @@ const char *GetHALPixelFormatString(int format) {
     return "YCrCb_420_SP_ADRENO";
   case HAL_PIXEL_FORMAT_YCrCb_422_SP:
     return "YCrCb_422_SP";
-  case HAL_PIXEL_FORMAT_R_8:
+  case HAL_PIXEL_FORMAT_R_8_QTI:
     return "R_8";
+  case HAL_PIXEL_FORMAT_R_8_ANDROID:
+    return "R_8_ANDROID";
   case HAL_PIXEL_FORMAT_RG_88:
     return "RG_88";
   case HAL_PIXEL_FORMAT_INTERLACE:
@@ -334,6 +336,8 @@ const char *GetHALPixelFormatString(int format) {
     return "YCbCr_420_SP_VENUS_UBWC";
   case HAL_PIXEL_FORMAT_RGBA_1010102:
     return "RGBA_1010102";
+  case HAL_PIXEL_FORMAT_RGBA_10101010_ANDROID:
+    return "RGBA_10101010_ANDROID";
   case HAL_PIXEL_FORMAT_ARGB_2101010:
     return "ARGB_2101010";
   case HAL_PIXEL_FORMAT_RGBX_1010102:

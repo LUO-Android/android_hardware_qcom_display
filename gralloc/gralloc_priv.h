@@ -123,7 +123,7 @@ inline int roundUpToPageSize(int x) {
 #define HAL_PIXEL_FORMAT_YCbCr_420_SP 0x109
 #define HAL_PIXEL_FORMAT_YCrCb_420_SP_ADRENO 0x7FA30C01
 #define HAL_PIXEL_FORMAT_YCrCb_422_SP 0x10B
-#define HAL_PIXEL_FORMAT_R_8 0x10D
+#define HAL_PIXEL_FORMAT_R_8_QTI 0x10D
 #define HAL_PIXEL_FORMAT_RG_88 0x10E
 #define HAL_PIXEL_FORMAT_YCbCr_444_SP 0x10F
 #define HAL_PIXEL_FORMAT_YCrCb_444_SP 0x110
@@ -147,6 +147,11 @@ inline int roundUpToPageSize(int x) {
 
 #define HAL_PIXEL_FORMAT_CbYCrY_422_I            0x120
 #define HAL_PIXEL_FORMAT_BGR_888                 0x121
+
+/* Android 15 public formats. Keep the legacy QTI formats above distinct: their
+ * numeric values are part of the vendor ABI used by older clients. */
+#define HAL_PIXEL_FORMAT_R_8_ANDROID             0x38
+#define HAL_PIXEL_FORMAT_RGBA_10101010_ANDROID   0x3B
 
 #define HAL_PIXEL_FORMAT_INTERLACE 0x180
 
