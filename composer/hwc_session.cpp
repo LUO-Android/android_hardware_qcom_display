@@ -59,6 +59,7 @@
 #include <cutils/properties.h>
 #include <display_config.h>
 #include <hardware_legacy/uevent.h>
+#include <log/log.h>
 #include <private/color_params.h>
 #include <qd_utils.h>
 #include <sync/sync.h>
@@ -70,6 +71,7 @@
 #include <QService.h>
 #include <utils/utils.h>
 #include <algorithm>
+#include <atomic>
 #include <utility>
 #include <bitset>
 #include <iterator>
@@ -1063,7 +1065,16 @@ int32_t HWCSession::SetLayerSurfaceDamage(hwc2_display_t display, hwc2_layer_t l
 int32_t HWCSession::SetLayerTransform(hwc2_display_t display, hwc2_layer_t layer,
                                       int32_t int_transform) {
   auto transform = static_cast<HWC2::Transform>(int_transform);
-  return CallLayerFunction(display, layer, &HWCLayer::SetLayerTransform, transform);
+  int32_t error = CallLayerFunction(display, layer, &HWCLayer::SetLayerTransform, transform);
+  if (error == static_cast<int32_t>(HWC2::Error::BadParameter)) {
+    static std::atomic<uint32_t> invalid_transform_count{0};
+    if (invalid_transform_count.fetch_add(1, std::memory_order_relaxed) < 16) {
+      ALOGW("Rejected layer transform: display=%llu layer=%llu transform=%d",
+            static_cast<unsigned long long>(display), static_cast<unsigned long long>(layer),
+            int_transform);
+    }
+  }
+  return error;
 }
 
 int32_t HWCSession::SetLayerVisibleRegion(hwc2_display_t display, hwc2_layer_t layer,
